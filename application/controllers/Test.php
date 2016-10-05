@@ -8,58 +8,23 @@
  */
 class Test extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Qrcode');
+    }
+
     public function index()
     {
-        // here our data
-        $name = 'Gabriel Moura';
-        $sortName = 'Gabriel;Moura';
-        $phone = '(000)0000-0000';
-        $phonePrivate = '(000)0000-0000';
-        $phoneCell = '(000)0000-0000';
-        $orgName = 'test inc.';
+        $smodel = base_url('qrcode?d=');
+        $smodel .= 'Teste';
 
-        $email = 'test@example.com';
+        $mecard = $this->Qrcode->mecard('Moura', 'Gabriel', '00 0000-0000', '00 00000-0000', 'Rua da Ficticia 123');
+        $wifi = $this->Qrcode->wifi('SSID', 'WPA', 'SENHA1234', false);
 
-        // if not used - leave blank!
-        $addressLabel = 'Our Office';
-        $addressPobox = '';
-        $addressExt = 'Suite 123';
-        $addressStreet = '7th Avenue';
-        $addressTown = 'New York';
-        $addressRegion = 'NY';
-        $addressPostCode = '0000000-000';
-        $addressCountry = 'BR';
-
-
-        // we building raw data
-        $vcard = base_url('qrcode?d=');
-        $vcard .= 'BEGIN:VCARD' . "\n";
-        $vcard .= 'VERSION:2.1' . "\n";
-        $vcard .= 'N:' . $sortName . "\n";
-        $vcard .= 'FN:' . $name . "\n";
-        $vcard .= 'ORG:' . $orgName . "\n";
-
-        $vcard .= 'TEL;WORK;VOICE:' . $phone . "\n";
-        $vcard .= 'TEL;HOME;VOICE:' . $phonePrivate . "\n";
-        $vcard .= 'TEL;TYPE=cell:' . $phoneCell . "\n";
-
-        $vcard .= 'ADR;TYPE=work;' .
-            'LABEL="' . $addressLabel . '":'
-            . $addressPobox . ';'
-            . $addressExt . ';'
-            . $addressStreet . ';'
-            . $addressTown . ';'
-            . $addressPostCode . ';'
-            . $addressCountry
-            . "\n";
-
-        $vcard .= 'EMAIL:' . $email . "\n";
-
-        $vcard .= 'END:VCARD';
-        $vcard .= '&e=H';
         $this->output
             ->set_content_type('text/html')
-            ->set_output("<img src='$vcard'>");
+            ->set_output("<h1>Teste1</h1><img src='$mecard'><br><h1>teste2</h1><img src='$wifi'><br><h1>Teste3</h1><img src='$smodel'>");
 
 
     }
